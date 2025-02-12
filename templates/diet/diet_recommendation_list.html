@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Diet Recommendations{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-primary"><i class="fas fa-utensils"></i> Diet Recommendations</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Diet Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ patient.patient_info }}</td>
+                        <td>
+                            {% if patient.diet %}
+                                <span class="badge bg-success">{{ patient.diet.diet_type }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">Not Assigned</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'diet_recommendation_detail' patient.id %}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-muted">No diet recommendations available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

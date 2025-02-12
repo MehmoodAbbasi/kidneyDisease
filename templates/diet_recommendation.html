@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Diet Recommendation{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4 text-success">Diet Recommendation</h2>
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Patient Name</th>
+                        <td>{{ patient.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>{{ patient.age }}</td>
+                    </tr>
+                    <tr>
+                        <th>Condition</th>
+                        <td class="text-danger font-weight-bold">{{ patient.prediction }}</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Meals</th>
+                        <td>{{ diet.recommended_meals }}</td>
+                    </tr>
+                    <tr>
+                        <th>Diet Guidelines</th>
+                        <td>{{ diet.guidelines }}</td>
+                    </tr>
+                </table>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'result' patient.id %}" class="btn btn-primary">Back to Results</a>
+                    <a href="/" class="btn btn-secondary">Go Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

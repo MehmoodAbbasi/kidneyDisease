@@ -1,0 +1,199 @@
+Django Models Documentation
+
+Overview
+
+This documentation provides details on the models used in the Chronic Kidney Disease (CKD) Prediction System. It covers user roles, patient management, CKD prediction, diet recommendations, appointments, calorie tracking, and wellness features like yoga and workouts.
+
+1. CustomUser Model
+
+Description
+
+The CustomUser model extends Django's AbstractUser to include additional fields such as role and UUID.
+
+Fields
+
+email: Unique email field for user authentication.
+
+user_uuid: Unique identifier for users.
+
+role: Defines the role of the user (Admin, Doctor, Patient).
+
+Methods
+
+__str__(): Returns the username of the user.
+
+2. PatientInfo Model
+
+Description
+
+Stores basic information about patients.
+
+Fields
+
+name: Full name of the patient.
+
+father_name: Father's name.
+
+age: Age of the patient.
+
+address: Address details.
+
+created_at: Timestamp when the patient record was created.
+
+Methods
+
+__str__(): Returns the name and age.
+
+get_absolute_url(): Returns the URL for patient list view.
+
+3. Patient Model
+
+Description
+
+Stores medical attributes related to CKD prediction.
+
+Fields
+
+patient_info: Foreign key to PatientInfo.
+
+age, bp, sg, al, su, bgr, bu, sc, sod, pot, hemo, pcv, wc, rc: Various medical parameters.
+
+rbc, pc, pcc, ba: Lab test results.
+
+htn, dm, cad, appet, pe, ane: Health conditions.
+
+prediction: Result of the CKD prediction.
+
+created_at: Timestamp when the prediction was recorded.
+
+Methods
+
+__str__(): Returns patient name and prediction.
+
+get_absolute_url(): Returns the result page for the patient.
+
+4. DietRecommendation Model
+
+Description
+
+Stores personalized diet recommendations for patients.
+
+Fields
+
+patient: One-to-one relationship with Patient.
+
+diet_type: Type of diet (Vegetarian, Non-Vegetarian, Vegan).
+
+cuisine_style: Preferred cuisine style.
+
+additional_notes: Optional notes on dietary preferences.
+
+recommended_meals: Suggested meal plans.
+
+created_at: Timestamp when the diet plan was created.
+
+Methods
+
+__str__(): Returns diet details for a patient.
+
+5. Appointment Model
+
+Description
+
+Handles patient appointments with doctors or health counselors.
+
+Fields
+
+patient: Foreign key to Patient.
+
+date: Appointment date.
+
+time: Appointment time.
+
+consultation_type: Type of consultation (Doctor or Health Counselor).
+
+status: Current status (Pending, Confirmed, Rescheduled, Cancelled).
+
+created_at: Timestamp when the appointment was created.
+
+Methods
+
+__str__(): Returns appointment details.
+
+6. CalorieRecord Model
+
+Description
+
+Tracks daily calorie intake and burnt calories for patients.
+
+Fields
+
+patient: Foreign key to Patient.
+
+date: Date of the record.
+
+intake: Calories consumed.
+
+burnt: Calories burnt.
+
+Methods
+
+__str__(): Returns patient’s calorie intake and burnt status.
+
+7. SoulStretch Model
+
+Description
+
+Stores yoga and breathing exercise guidelines.
+
+Fields
+
+title: Name of the yoga or breathing exercise.
+
+description: Details about the exercise.
+
+image: Image representation (optional).
+
+video: Video demonstration (optional).
+
+Methods
+
+__str__(): Returns the title of the exercise.
+
+8. SweatSpot Model
+
+Description
+
+Stores workout routines for patients.
+
+Fields
+
+title: Name of the workout.
+
+description: Details about the workout routine.
+
+image: Image representation (optional).
+
+video: Video demonstration (optional).
+
+Methods
+
+__str__(): Returns the title of the workout.
+
+Relationships Overview
+
+CustomUser has different roles (Admin, Doctor, Patient).
+
+PatientInfo contains basic patient details and is linked to Patient.
+
+Patient contains CKD-related medical attributes.
+
+DietRecommendation is linked to Patient for personalized meal plans.
+
+Appointment is linked to Patient to manage consultation scheduling.
+
+CalorieRecord tracks calories per patient.
+
+SoulStretch and SweatSpot offer wellness guidance.
+
+This concludes the model documentation for the system.

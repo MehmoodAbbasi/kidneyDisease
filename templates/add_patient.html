@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Patient - CKD Health Advisor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-success"><i class="fas fa-user-plus"></i> Add New Patient</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_name" class="form-label">Patient Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_father_name" class="form-label">Father's Name</label>
+                    {{ form.father_name }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_age" class="form-label">Age</label>
+                    {{ form.age }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_address" class="form-label">Address</label>
+                    {{ form.address }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="fas fa-save"></i> Save Patient
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

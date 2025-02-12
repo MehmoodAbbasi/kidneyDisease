@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Signup | CKD Health Advisor{% endblock %}
+{% block content %}
+
+<div class="mx-auto form-container">
+    <h3 class="text-center text-primary"><i class="fas fa-user-plus"></i> Create an Account</h3>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- Username Field -->
+        <div class="mb-3">
+            <label for="id_username" class="form-label"><i class="fas fa-user"></i> Username</label>
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Choose a username" required>
+            <div class="invalid-feedback">Please enter a valid username.</div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-3">
+            <label for="id_email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" name="email" id="id_email" class="form-control" placeholder="Enter your email" required>
+            <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-3">
+            <label for="id_password1" class="form-label"><i class="fas fa-lock"></i> Password</label>
+            <div class="input-group">
+                <input type="password" name="password1" id="id_password1" class="form-control password-field" placeholder="Create a password" required>
+                <button class="btn btn-outline-secondary toggle-password" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="invalid-feedback">Your password must be at least 8 characters.</div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-3">
+            <label for="id_password2" class="form-label"><i class="fas fa-lock"></i> Confirm Password</label>
+            <div class="input-group">
+                <input type="password" name="password2" id="id_password2" class="form-control password-field" placeholder="Confirm your password" required>
+                <button class="btn btn-outline-secondary toggle-password" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="invalid-feedback">Passwords do not match.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-custom w-100"><i class="fas fa-user-check"></i> Sign Up</button>
+    </form>
+
+    <!-- Login Redirect -->
+    <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a></p>
+</div>
+
+<!-- JavaScript for Password Toggle and Form Validation -->
+<script>
+    // Password Toggle
+    document.querySelectorAll(".toggle-password").forEach(button => {
+        button.addEventListener("click", function() {
+            let passwordField = this.previousElementSibling;
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordField.type = "password";
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
+    });
+
+    // Bootstrap Form Validation
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+
+{% endblock %}

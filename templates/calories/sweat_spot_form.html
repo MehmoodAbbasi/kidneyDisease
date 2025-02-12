@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Add Workout Guidelines{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="fas fa-plus-circle"></i> Add Workout Guidelines</h2>
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success btn-custom"><i class="fas fa-check"></i> Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

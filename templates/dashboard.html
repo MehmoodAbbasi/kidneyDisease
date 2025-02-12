@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | CKD Health Advisor{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-primary"><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
+        <p><i class="fas fa-envelope"></i> Email: {{ user.email }}</p>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary shadow-lg p-3">
+                <h5 class="card-title">Total Patients</h5>
+                <p class="card-text display-4">{{ total_patients }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success shadow-lg p-3">
+                <h5 class="card-title">Total Appointments</h5>
+                <p class="card-text display-4">{{ total_appointments }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger shadow-lg p-3">
+                <h5 class="card-title">CKD Cases</h5>
+                <p class="card-text display-4">{{ ckd_cases }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning shadow-lg p-3">
+                <h5 class="card-title">Total Diet Plans</h5>
+                <p class="card-text display-4">{{ total_diets }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mt-4">
+        <!-- Patients by Age Group (Bar Chart) and Diet Preferences (Bar Chart) in the same row -->
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3">
+                <h5 class="card-title text-center">Patients by Age Group</h5>
+                <canvas id="ageChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3">
+                <h5 class="card-title text-center">Diet Preferences</h5>
+                <canvas id="dietChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- CKD Prediction (Donut Chart) and Appointment Status (Donut Chart) in the same row -->
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3">
+                <h5 class="card-title text-center">CKD Prediction Results</h5>
+                <canvas id="predictionChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3">
+                <h5 class="card-title text-center">Appointment Status</h5>
+                <canvas id="appointmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let ageLabels = JSON.parse('{{ age_labels|escapejs }}');
+        let ageValues = JSON.parse('{{ age_values|escapejs }}');
+
+        let predictionLabels = JSON.parse('{{ prediction_labels|escapejs }}');
+        let predictionValues = JSON.parse('{{ prediction_values|escapejs }}');
+
+        let appointmentLabels = JSON.parse('{{ appointment_labels|escapejs }}');
+        let appointmentValues = JSON.parse('{{ appointment_values|escapejs }}');
+
+        let dietLabels = JSON.parse('{{ diet_labels|escapejs }}');
+        let dietValues = JSON.parse('{{ diet_values|escapejs }}');
+
+        // Age Group Chart (Bar)
+        new Chart(document.getElementById('ageChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ageLabels,
+                datasets: [{
+                    label: 'Patients by Age Group',
+                    data: ageValues,
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        // Diet Preferences Chart (Bar)
+        new Chart(document.getElementById('dietChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: dietLabels,
+                datasets: [{
+                    label: 'Diet Preferences',
+                    data: dietValues,
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        // CKD Prediction Chart (Doughnut)
+        new Chart(document.getElementById('predictionChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: predictionLabels,
+                datasets: [{
+                    label: 'CKD Predictions',
+                    data: predictionValues,
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        // Appointment Status Chart (Doughnut)
+        new Chart(document.getElementById('appointmentChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: appointmentLabels,
+                datasets: [{
+                    label: 'Appointments',
+                    data: appointmentValues,
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+                }]
+            },
+            options: { responsive: true }
+        });
+    });
+</script>
+
+{% endblock %}

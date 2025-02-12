@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Diet Recommendation - {{ patient.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-primary"><i class="fas fa-utensils"></i> Diet Plan for {{ patient.name }}</h2>
+    
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Diet Type</label>
+                    {{ form.diet_type }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cuisine Preference</label>
+                    {{ form.cuisine_style }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Additional Notes</label>
+                    {{ form.additional_notes }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Recommended Meals</label>
+                    {{ form.recommended_meals }}
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

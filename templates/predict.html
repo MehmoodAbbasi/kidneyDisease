@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}CKD Prediction{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Chronic Kidney Disease Prediction</h2>
+    <p class="text-center">Enter your health details below:</p>
+    
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary w-100">Predict</button>
+    </form>
+</div>
+
+{% endblock %}

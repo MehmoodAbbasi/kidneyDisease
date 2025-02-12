@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Records - CKD Health Advisor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-users"></i> Patient Records</h2>
+        <a href="{% url 'add_patient' %}" class="btn btn-success shadow-sm">
+            <i class="fas fa-user-plus"></i> Add New Patient
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <p class="text-muted">Manage all registered patients and view their history.</p>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Father's Name</th>
+                            <th>Age</th>
+                            <th>Address</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="fw-bold">{{ patient.name }}</td>
+                            <td>{{ patient.father_name }}</td>
+                            <td>{{ patient.age }} years</td>
+                            <td>{{ patient.address }}</td>
+                            <td>{{ patient.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <a href="{% url 'patient_history' patient.id %}" class="btn btn-info btn-sm">
+                                    <i class="fas fa-history"></i> View History
+                                </a>
+                                <td>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No patients found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

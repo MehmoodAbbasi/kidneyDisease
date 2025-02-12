@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Book an Appointment - CKD Health Advisor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-primary"><i class="fas fa-calendar-plus"></i> Book an Appointment</h2>
+
+    <div class="form-container mx-auto">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-custom"><i class="fas fa-check"></i> Confirm Booking</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

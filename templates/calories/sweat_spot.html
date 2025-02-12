@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Soul Stretch{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Soul Stretch (Yoga & Breathing)</h2>
+    {% for exercise in workouts %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ exercise.title }}</h5>
+            <p>{{ exercise.description }}</p>
+            {% if exercise.image %}
+            <img src="{{ exercise.image.url }}" class="img-fluid">
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

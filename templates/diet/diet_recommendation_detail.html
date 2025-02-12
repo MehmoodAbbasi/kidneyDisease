@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Diet Plan - {{ patient.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-primary"><i class="fas fa-utensils"></i> Diet Plan for {{ patient.name }}</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-user"></i> Patient Information</h5>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>Name:</strong> {{ patient.patient_info }}</li>
+                <li class="list-group-item"><strong>Age:</strong> {{ patient.age }} years</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ patient.patient_info.address }}</li>
+            </ul>
+
+            {% if diet %}
+            <h5 class="card-title text-success"><i class="fas fa-seedling"></i> Diet Recommendation</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Diet Type:</strong> <span class="badge bg-info">{{ diet.diet_type }}</span></li>
+                <li class="list-group-item"><strong>Cuisine Preference:</strong> {{ diet.cuisine_style|default:"Not specified" }}</li>
+                <li class="list-group-item"><strong>Additional Notes:</strong> {{ diet.additional_notes|default:"No additional notes" }}</li>
+                <li class="list-group-item"><strong>Recommended Meals:</strong></li>
+                <li class="list-group-item">
+                    <ul class="list-group">
+                        {% for meal in diet.recommended_meals.splitlines %}
+                            <li class="list-group-item">{{ meal }}</li>
+                        {% empty %}
+                            <li class="list-group-item text-muted">No meal recommendations available.</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="list-group-item"><strong>Created On:</strong> {{ diet.created_at|date:"Y-m-d H:i" }}</li>
+            </ul>
+
+            <div class="mt-3">
+                <a href="{% url 'diet_recommendation_update' patient.id %}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Edit Diet Plan
+                </a>
+                <a href="{% url 'diet_recommendation_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-circle"></i> No diet recommendation assigned yet.
+            </div>
+            <a href="{% url 'diet_recommendation_create' patient.id %}" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Create Diet Plan
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

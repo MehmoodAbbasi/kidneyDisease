@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Appointments{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-primary"><i class="fas fa-calendar-check"></i> Appointments</h2>
+    <div class="d-flex justify-content-between mb-3">
+        <p class="text-muted">Manage all scheduled appointments.</p>
+        <a href="{% url 'appointment_create' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Book Appointment
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-striped shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Consultation Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ appointment.patient.name }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>{{ appointment.get_consultation_type_display }}</td>
+                    <td>
+                        <span class="badge bg-{% if appointment.status == 'Confirmed' %}success{% elif appointment.status == 'Pending' %}warning{% elif appointment.status == 'Cancelled' %}danger{% else %}info{% endif %}">
+                            {{ appointment.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'appointment_update' appointment.id %}" class="btn btn-info btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'appointment_delete' appointment.id %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No appointments found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

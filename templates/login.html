@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Login | CKD Health Advisor{% endblock %}
+{% block content %}
+
+<div class="mx-auto form-container">
+    <h3 class="text-center text-primary"><i class="fas fa-sign-in-alt"></i> Login</h3>
+    
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- username Field -->
+        <div class="mb-3">
+            <label for="id_username" class="form-label"><i class="fas fa-envelope"></i> Username</label>
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter your email" required>
+            <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-3">
+            <label for="id_password" class="form-label"><i class="fas fa-lock"></i> Password</label>
+            <div class="input-group">
+                <input type="password" name="password" id="id_password" class="form-control password-field" placeholder="Enter your password" required>
+                <button class="btn btn-outline-secondary toggle-password" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="invalid-feedback">Please enter your password.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-custom w-100"><i class="fas fa-sign-in-alt"></i> Login</button>
+    </form>
+
+    <!-- Signup Redirect -->
+    <p class="text-center mt-3">Don't have an account? <a href="{% url 'signup' %}" class="text-decoration-none">Sign up here</a></p>
+</div>
+
+<!-- JavaScript for Password Toggle and Form Validation -->
+<script>
+    // Password Toggle
+    document.querySelectorAll(".toggle-password").forEach(button => {
+        button.addEventListener("click", function() {
+            let passwordField = this.previousElementSibling;
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordField.type = "password";
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
+    });
+
+    // Bootstrap Form Validation
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+
+{% endblock %}

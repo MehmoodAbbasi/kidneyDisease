@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Calorie Record{% endblock %}
+{% block content %}
+
+<div class="form-container mx-auto mt-4">
+    <h2 class="text-center text-primary"><i class="fas fa-edit"></i> Add Calorie Record</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Calories Consumed:</label>
+            <input type="number" name="intake" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Calories Burnt:</label>
+            <input type="number" name="burnt" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Save</button>
+    </form>
+</div>
+
+{% endblock %}

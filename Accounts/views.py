@@ -18,7 +18,7 @@ class UserLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         if user.role == 'patient':
-            return reverse_lazy('patient_dashboard')
+            return reverse_lazy('patient:patient_dashboard')
         return reverse_lazy('dashboard')
 
 class LogoutView(View):

@@ -3,19 +3,99 @@
 {% block content %}
 
 <div class="container mt-4">
-    <div class="card shadow-lg p-4">
-        <h2 class="text-primary"><i class="fas fa-tachometer-alt"></i> Patient Dashboard</h2>
+    <!-- Welcome Card -->
+    <div class="card shadow-lg p-4 bg-light">
+        <h2 class="text-primary"><i class="fas fa-user-md"></i> Patient Dashboard</h2>
         <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
         <p><i class="fas fa-envelope"></i> Email: {{ user.email }}</p>
     </div>
 
+    <!-- Display Error if Exists -->
     {% if error %}
         <div class="alert alert-danger mt-4">{{ error }}</div>
-    {% else %}
-help
     {% endif %}
+
+    <!-- Health Overview Section -->
+    <div class="card shadow-lg mt-4 p-4">
+        <h4 class="text-info"><i class="fas fa-heartbeat"></i> Health Overview</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="alert alert-primary">
+                    <h5>BMI</h5>
+                    <p>22.5 (Normal)</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-danger">
+                    <h5>Blood Pressure</h5>
+                    <p>140/90 mmHg (High)</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-warning">
+                    <h5>Sugar Level</h5>
+                    <p>180 mg/dL (Borderline)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Predictions -->
+    <div class="card shadow-lg mt-4 p-4">
+        <h4 class="text-success"><i class="fas fa-clipboard-list"></i> Recent CKD Predictions</h4>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Feb 10, 2025</td>
+                    <td><span class="badge badge-danger">CKD</span></td>
+                    <td>85%</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jan 20, 2025</td>
+                    <td><span class="badge badge-success">Not CKD</span></td>
+                    <td>92%</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Dec 15, 2024</td>
+                    <td><span class="badge badge-warning">Borderline</span></td>
+                    <td>78%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card shadow-lg mt-4 p-4">
+        <h4 class="text-dark"><i class="fas fa-tools"></i> Quick Actions</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{% url 'patient:patinet_diet' %}" class="btn btn-info btn-block">
+                    <i class="fas fa-utensils"></i> View Diet Plan
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#" class="btn btn-warning btn-block">
+                    <i class="fas fa-calendar-check"></i> Check Appointments
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'patient:patient_perdict' %}" class="btn btn-success btn-block">
+                    <i class="fas fa-stethoscope"></i> New CKD Prediction
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 {% endblock %}

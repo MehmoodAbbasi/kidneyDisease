@@ -1,0 +1,106 @@
+{% extends "patient/base.html" %}
+
+{% block title %}Patient - CKD Health Advisor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-primary"><i class="fas fa-procedures"></i> Patient Records</h2>
+
+    <!-- Search & Filter Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="q" class="form-control" placeholder="🔍 Search by Age, Prediction, Disease..." value="{{ request.GET.q }}">
+                </div>
+                <div class="col-md-3">
+                    <select name="htn" class="form-select">
+                        <option value="">Filter by Hypertension</option>
+                        <option value="yes" {% if request.GET.htn == "yes" %}selected{% endif %}>Yes</option>
+                        <option value="no" {% if request.GET.htn == "no" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="dm" class="form-select">
+                        <option value="">Filter by Diabetes</option>
+                        <option value="yes" {% if request.GET.dm == "yes" %}selected{% endif %}>Yes</option>
+                        <option value="no" {% if request.GET.dm == "no" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Patients Table -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-striped shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>BP</th>
+                    <th>Glucose</th>
+                    <th>Creatinine</th>
+                    <th>Hemoglobin</th>
+                    <th>Hypertension</th>
+                    <th>Diabetes</th>
+                    <th>Prediction</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for prediction in predictions %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ prediction.bp }} mmHg</td>
+                    <td>{{ prediction.bgr }} mg/dL</td>
+                    <td>{{ prediction.sc }} mg/dL</td>
+                    <td>{{ prediction.hemo }} g/dL</td>
+                    <td>
+                        {% if prediction.htn == "yes" %}
+                            <span class="badge bg-danger"><i class="fas fa-exclamation-circle"></i> Yes</span>
+                        {% else %}
+                            <span class="badge bg-success"><i class="fas fa-check-circle"></i> No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if prediction.dm == "yes" %}
+                            <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle"></i> Yes</span>
+                        {% else %}
+                            <span class="badge bg-success"><i class="fas fa-check-circle"></i> No</span>
+                        {% endif %}
+                    </td>
+                    <td><strong class="text-primary">{{ prediction.prediction }}</strong></td>
+                    <td>{{ prediction.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">No history found for this patient.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">« First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹ Prev</a></li>
+            {% endif %}
+
+            <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next ›</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last »</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "patient/base.html" %}
+{% block title %}Patient Dashboard | CKD Health Advisor{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-primary"><i class="fas fa-tachometer-alt"></i> Patient Dashboard</h2>
+        <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
+        <p><i class="fas fa-envelope"></i> Email: {{ user.email }}</p>
+    </div>
+
+    {% if error %}
+        <div class="alert alert-danger mt-4">{{ error }}</div>
+    {% else %}
+help
+    {% endif %}
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'patient/base.html' %}
+{% block title %}Prediction Result{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4 text-primary">Chronic Kidney Disease Prediction</h2>
+
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Age</th>
+                            <td>{{ patient.age }} years</td>
+                        </tr>
+                        <tr>
+                            <th>Blood Pressure</th>
+                            <td>{{ patient.bp }} mmHg</td>
+                        </tr>
+                        <tr>
+                            <th>Specific Gravity</th>
+                            <td>{{ patient.sg }}</td>
+                        </tr>
+                        <tr>
+                            <th>Albumin</th>
+                            <td>{{ patient.al }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sugar</th>
+                            <td>{{ patient.su }}</td>
+                        </tr>
+                        <tr>
+                            <th>Red Blood Cells</th>
+                            <td>{{ patient.rbc }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pus Cells</th>
+                            <td>{{ patient.pc }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pus Cell Clumps</th>
+                            <td>{{ patient.pcc }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bacteria</th>
+                            <td>{{ patient.ba }}</td>
+                        </tr>
+                        <tr>
+                            <th>Blood Glucose Random</th>
+                            <td>{{ patient.bgr }} mg/dL</td>
+                        </tr>
+                        <tr>
+                            <th>Blood Urea</th>
+                            <td>{{ patient.bu }} mg/dL</td>
+                        </tr>
+                        <tr>
+                            <th>Serum Creatinine</th>
+                            <td>{{ patient.sc }} mg/dL</td>
+                        </tr>
+                        <tr>
+                            <th>Sodium</th>
+                            <td>{{ patient.sod }} mEq/L</td>
+                        </tr>
+                        <tr>
+                            <th>Potassium</th>
+                            <td>{{ patient.pot }} mEq/L</td>
+                        </tr>
+                        <tr>
+                            <th>Hemoglobin</th>
+                            <td>{{ patient.hemo }} g/dL</td>
+                        </tr>
+                        <tr>
+                            <th>Packed Cell Volume</th>
+                            <td>{{ patient.pcv }}</td>
+                        </tr>
+                        <tr>
+                            <th>White Blood Cell Count</th>
+                            <td>{{ patient.wc }} cells/cu mm</td>
+                        </tr>
+                        <tr>
+                            <th>Red Blood Cell Count</th>
+                            <td>{{ patient.rc }} million cells/cu mm</td>
+                        </tr>
+                        <tr>
+                            <th>Hypertension</th>
+                            <td>{{ patient.htn }}</td>
+                        </tr>
+                        <tr>
+                            <th>Diabetes Mellitus</th>
+                            <td>{{ patient.dm }}</td>
+                        </tr>
+                        <tr>
+                            <th>Coronary Artery Disease</th>
+                            <td>{{ patient.cad }}</td>
+                        </tr>
+                        <tr>
+                            <th>Appetite</th>
+                            <td>{{ patient.appet }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pedal Edema</th>
+                            <td>{{ patient.pe }}</td>
+                        </tr>
+                        <tr>
+                            <th>Anemia</th>
+                            <td>{{ patient.ane }}</td>
+                        </tr>
+                        <tr>
+                            <th>Prediction</th>
+                            <td class="{% if patient.prediction == 'CKD' %}text-danger font-weight-bold{% else %}text-success font-weight-bold{% endif %}">
+                                {{ patient.prediction }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Prediction Date</th>
+                            <td>{{ patient.created_at|date:"F d, Y - h:i A" }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% if patient.prediction == "CKD" %}
+                <div class="text-center mt-4">
+                    <a href="{% url 'diet_recommendation' patient.id %}" class="btn btn-danger">
+                        View Diet Recommendation 🍽️
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'patient:patient_dashboard' %}" class="btn btn-secondary">Go Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

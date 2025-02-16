@@ -1,14 +1,26 @@
 from django.contrib import admin
-from .models import Patient
+from django.contrib.auth.admin import UserAdmin
+from .models import (
+    CustomUser
+)
 
-class PatientAdmin(admin.ModelAdmin):
-    list_display = (
-        "patient_info", "age", "bp", "sg", "al", "su", "rbc", "pc", "pcc", "ba", "bgr", "bu", "sc",
-        "sod", "pot", "hemo", "pcv", "wc", "rc", "htn", "dm", "cad", "appet", "pe", "ane", "prediction", "created_at"
+
+# Custom User Admin (Jazzmin Optimized)
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'role', 'is_active', 'is_staff', 'date_joined')
+    search_fields = ('username', 'email', 'role')
+    list_filter = ('role', 'is_active', 'is_staff', 'is_superuser')
+    ordering = ('-date_joined',)
+    fieldsets = (
+        ('User Details', {'fields': ('username', 'email', 'password', 'role')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important Dates', {'fields': ('last_login', 'date_joined')}),
     )
-    list_filter = ("prediction", "htn", "dm", "cad", "ane", "pe")
-    search_fields = ("age", "bp", "rbc", "pc", "prediction")
-    readonly_fields = ("created_at",)
-    ordering = ("-created_at",)
+    add_fieldsets = (
+        ('Create User', {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'role'),
+        }),
+    )
 
-admin.site.register(Patient, PatientAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)

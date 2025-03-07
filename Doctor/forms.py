@@ -93,14 +93,43 @@ class AppointmentForm(forms.ModelForm):
 
 
 # Enhanced Soul Stretch Form (Yoga & Breathing)
-class SoulStretchForm(forms.ModelForm):
+class SoulStretchForm(forms.ModelForm):   
     class Meta:
         model = SoulStretch
-        fields = ["title", "description", "image"]
+        fields = ["patient", "title", "description", "image", "video"]  
         widgets = {
+            "patient": forms.Select(attrs={"class": "form-control"}),  
             "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter yoga/stretch title"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4, "placeholder": "Describe the yoga/stretch benefits and steps"}),
             "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "video": forms.ClearableFileInput(attrs={"class": "form-control"}),
+        }
+
+    # Custom validation for the title field
+    def clean_title(self):
+        title = self.cleaned_data.get("title")
+        if len(title) < 5:
+            raise forms.ValidationError("Title must be at least 5 characters long.")
+        return title
+
+    # Custom validation for the description field
+    def clean_description(self):
+        description = self.cleaned_data.get("description")
+        if len(description) < 10:
+            raise forms.ValidationError("Description must be at least 10 characters long.")
+        return description
+
+# Enhanced Sweat Spot Form (Workout Guidelines)
+class SweatSpotForm(forms.ModelForm):
+    class Meta:
+        model = SweatSpot
+        fields = ["patient", "title", "description", "image", "video"]
+        widgets = {
+            "patient": forms.Select(attrs={"class": "form-control"}),
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter workout title"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 4, "placeholder": "Describe the workout guidelines"}),
+            "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "video": forms.ClearableFileInput(attrs={"class": "form-control"}),
         }
 
     def clean_title(self):
@@ -108,16 +137,6 @@ class SoulStretchForm(forms.ModelForm):
         if len(title) < 5:
             raise forms.ValidationError("Title must be at least 5 characters long.")
         return title
-
-# Enhanced Sweat Spot Form (Workout Guidelines)
-class SweatSpotForm(forms.ModelForm):
-    class Meta:
-        model = SweatSpot
-        fields = ["title", "description"]
-        widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter workout title"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "rows": 4, "placeholder": "Describe the workout guidelines"}),
-        }
 
     def clean_description(self):
         description = self.cleaned_data.get("description")

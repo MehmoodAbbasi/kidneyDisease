@@ -1,19 +1,53 @@
-{% extends "base.html" %}
+{% extends "patient/base.html" %}
 {% block title %}Add Calorie Record{% endblock %}
 {% block content %}
 
 <div class="form-container mx-auto mt-4">
     <h2 class="text-center text-primary"><i class="fas fa-edit"></i> Add Calorie Record</h2>
-    <form method="post">
+    
+    <!-- Display form errors -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>There were some errors in the form:</strong>
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" class="form-group">
         {% csrf_token %}
+        
+        <!-- Calories Consumed -->
         <div class="mb-3">
-            <label>Calories Consumed:</label>
-            <input type="number" name="intake" class="form-control" required>
+            <label for="id_intake">Calories Consumed:</label>
+            {{ form.intake }}
+            {% if form.intake.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.intake.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+
+        <!-- Calories Burnt -->
         <div class="mb-3">
-            <label>Calories Burnt:</label>
-            <input type="number" name="burnt" class="form-control" required>
+            <label for="id_burnt">Calories Burnt:</label>
+            {{ form.burnt }}
+            {% if form.burnt.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.burnt.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+
         <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Save</button>
     </form>
 </div>

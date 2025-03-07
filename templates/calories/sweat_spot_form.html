@@ -1,14 +1,96 @@
 {% extends 'base.html' %}
+
 {% block title %}Add Workout Guidelines{% endblock %}
 
 {% block content %}
 <div class="container">
     <h2 class="mb-4"><i class="fas fa-plus-circle"></i> Add Workout Guidelines</h2>
     <div class="form-container">
-        <form method="post">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>There were some errors with your form:</strong>
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success btn-custom"><i class="fas fa-check"></i> Save</button>
+            
+            <!-- Render patient field -->
+            <div class="form-group">
+                <label for="{{ form.patient.id_for_label }}">{{ form.patient.label }}</label>
+                {{ form.patient }}
+                {% if form.patient.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.patient.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Render title field -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.title.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Render description field -->
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.description.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Render image field -->
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.image.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Render video field -->
+            <div class="form-group">
+                <label for="{{ form.video.id_for_label }}">{{ form.video.label }}</label>
+                {{ form.video }}
+                {% if form.video.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.video.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-custom">
+                <i class="fas fa-check"></i> Save
+            </button>
         </form>
     </div>
 </div>

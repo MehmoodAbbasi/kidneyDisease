@@ -1,11 +1,10 @@
-{% extends "base.html" %}
-{% block title %}Calorie Tracker - {{ patient.name }}{% endblock %}
+{% extends "patient/base.html" %}
+
+{% block title %}Calorie Tracker {% endblock %}
+
 {% block content %}
-
 <div class="form-container mx-auto mt-4">
-    <h2 class="text-center text-primary"><i class="fas fa-chart-line"></i> Calorie Tracker for {{ patient.name }}</h2>
-    <a href="{% url 'calorie_add' patient.id %}" class="btn btn-success w-100 mb-3"><i class="fas fa-plus"></i> Add New Entry</a>
-
+    <h2 class="text-center text-primary"><i class="fas fa-chart-line"></i> Calorie Tracker for {{ user.username }}</h2>
     <table class="table table-bordered text-center">
         <thead class="table-dark">
             <tr>
@@ -15,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for record in calories %}
+            {% for record in calorie_records %}
             <tr>
                 <td>{{ record.date }}</td>
                 <td>{{ record.intake }}</td>
@@ -37,25 +36,33 @@
 <script>
     var ctx = document.getElementById("calorieChart").getContext("2d");
     var calorieChart = new Chart(ctx, {
-        type: "line",
+        type: "line",  // Line chart
         data: {
-            labels: {{ dates|safe }},
+            labels: {{ dates|safe }},  // Dates array from context
             datasets: [
                 {
-                    label: "Calories Consumed",
-                    data: {{ intake|safe }},
+                    label: "Calories Consumed",  // Dataset for calories consumed
+                    data: {{ intake|safe }},  // Intake array from context
                     backgroundColor: "rgba(54, 162, 235, 0.5)",
                     borderColor: "blue",
                     fill: true
                 },
                 {
-                    label: "Calories Burnt",
-                    data: {{ burnt|safe }},
+                    label: "Calories Burnt",  // Dataset for calories burnt
+                    data: {{ burnt|safe }},  // Burnt array from context
                     backgroundColor: "rgba(255, 99, 132, 0.5)",
                     borderColor: "red",
                     fill: true
                 }
             ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true  // Ensure the Y-axis starts at 0
+                }
+            }
         }
     });
 </script>

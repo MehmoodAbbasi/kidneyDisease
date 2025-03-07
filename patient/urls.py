@@ -14,14 +14,9 @@ urlpatterns = [
     path('appointments/', AppointmentListView.as_view(), name='appointment_list'),
 
 
-    path("patients/<int:patient_id>/calories/", CalorieListView.as_view(), name="calorie_list"),
-    path("patients/<int:patient_id>/calories/add/", CalorieCreateView.as_view(), name="calorie_add"),
-    
-    path("soul-stretch/", SoulStretchListView.as_view(), name="soul_stretch"),
-    path("soul-stretch/add/", SoulStretchCreateView.as_view(), name="add_soul_stretch"),
-    
-    path("sweat-spot/", SweatSpotListView.as_view(), name="sweat_spot"),
-    path("sweat-spot/add/", SweatSpotCreateView.as_view(), name="add_sweat_spot"),
+    path('calories/', CalorieCreateView.as_view(), name='calorie_create'),
+    path('calorie-list/', CalorieListView.as_view(), name='calorie_list'),
+
 
 
 ]

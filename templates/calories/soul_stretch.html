@@ -1,20 +1,48 @@
 {% extends "base.html" %}
-{% block title %}Soul Stretch{% endblock %}
+{% block title %}Soul Stretch (Yoga & Breathing){% endblock %}
+
 {% block content %}
-
 <div class="container mt-4">
-    <h2 class="text-primary">Soul Stretch (Yoga & Breathing)</h2>
-    {% for exercise in stretches %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ exercise.title }}</h5>
-            <p>{{ exercise.description }}</p>
-            {% if exercise.image %}
-            <img src="{{ exercise.image.url }}" class="img-fluid">
-            {% endif %}
-        </div>
-    </div>
-    {% endfor %}
-</div>
+    <h2 class="text-primary mb-4">Soul Stretch (Yoga & Breathing)</h2>
 
+    <!-- Table to display the Soul Stretch exercises -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Patient</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Video</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exercise in stretches %}
+            <tr>
+                <td>{{ exercise.patient }}</td>
+                <td>{{ exercise.title }}</td>
+                <td>{{ exercise.description }}</td>
+                <td>
+                    {% if exercise.image %}
+                        <img src="{{ exercise.image.url }}" alt="{{ exercise.title }}" class="img-thumbnail" width="100">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>
+                    {% if exercise.video %}
+                        <a href="{{ exercise.video.url }}" target="_blank" class="btn btn-info btn-sm">View Video</a>
+                    {% else %}
+                        No Video
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No Soul Stretch exercises available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

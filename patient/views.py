@@ -9,13 +9,10 @@ from django.urls import reverse_lazy
 import numpy as np
 import joblib
 import os
-from django.db.models import Sum
-import json
-from django.db.models import Count
+from django.http import Http404
 from .forms import  *
 from .models import  *
 from django.shortcuts import get_object_or_404
-from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 
 class PatientDashboardView(LoginRequiredMixin, TemplateView):
@@ -218,3 +215,56 @@ class SweatSpotCreateView(CreateView):
     form_class = SweatSpotForm
     template_name = "calories/sweat_spot_form.html"
     success_url = reverse_lazy("sweat_spot")
+
+
+# Calorie Count - List View
+class CalorieCreateView(LoginRequiredMixin, CreateView):
+    model = CalorieRecord
+    form_class = CalorieRecordForm
+    template_name = 'calories/calorie_form.html'
+    context_object_name = 'form'
+    success_url = reverse_lazy("patient:calorie_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the logged-in user to the form
+        return context
+
+    def form_valid(self, form):
+        # Set the patient field to the logged-in user's patient
+        user = self.request.user
+        patient = get_object_or_404(CustomUser, patient_info__user=user)
+
+        # Set the patient in the form instance before saving
+        form.instance.patient = patient
+
+        return super().form_valid(form)
+
+
+class CalorieListView(LoginRequiredMixin, ListView):
+    model = CalorieRecord
+    template_name = 'calories/calorie_list.html'
+    context_object_name = 'calorie_records'
+
+    def get_queryset(self):
+        # Filter the calorie records based on the logged-in user's patient
+        return CalorieRecord.objects.filter(patient=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Prepare data for the chart
+        calorie_records = self.get_queryset()
+        dates = [record.date.strftime('%Y-%m-%d') for record in calorie_records]
+        intake = [record.intake for record in calorie_records]
+        burnt = [record.burnt for record in calorie_records]
+        
+        # Add the chart data to the context
+        context['dates'] = dates
+        context['intake'] = intake
+        context['burnt'] = burnt
+        
+        return context
+
+
+

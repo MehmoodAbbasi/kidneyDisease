@@ -3,7 +3,11 @@ from django.urls import reverse_lazy
 from Accounts.models import CustomUser
 # Create your models here.
 class PatientInfo(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="patient_info")
+    user = models.OneToOneField(
+        CustomUser, 
+        on_delete=models.CASCADE, 
+        related_name="patient_info"
+    )
     name = models.CharField(max_length=100)
     father_name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
@@ -17,7 +21,11 @@ class PatientInfo(models.Model):
         return reverse_lazy("patient_list")
     
 class Patient(models.Model):
-    patient_info = models.ForeignKey(PatientInfo, on_delete=models.CASCADE, related_name="patients")
+    patient_info = models.ForeignKey(
+        PatientInfo, 
+        on_delete=models.CASCADE, 
+        related_name="patients"
+    )
     age = models.FloatField()
     bp = models.FloatField(verbose_name="Blood Pressure")
     sg = models.FloatField(verbose_name="Specific Gravity")
@@ -58,7 +66,11 @@ class DietRecommendation(models.Model):
         ('Vegan', 'Vegan'),
     ]
     
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name="diet")
+    patient = models.OneToOneField(
+        Patient, 
+        on_delete=models.CASCADE, 
+        related_name="diet"
+    )
     diet_type = models.CharField(max_length=20, choices=DIET_CHOICES)
     cuisine_style = models.CharField(max_length=100, blank=True, null=True)
     additional_notes = models.TextField(blank=True, null=True)
@@ -82,7 +94,11 @@ class Appointment(models.Model):
         ('Cancelled', 'Cancelled'),
     ]
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="appointments")
+    patient = models.ForeignKey(
+        Patient, 
+        on_delete=models.CASCADE, 
+        related_name="appointments"
+    )
     date = models.DateField()
     time = models.TimeField()
     consultation_type = models.CharField(max_length=20, choices=CONSULTATION_CHOICES)
@@ -95,30 +111,56 @@ class Appointment(models.Model):
 
 # Calorie Count Model (Linked to Patient)
 class CalorieRecord(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="calories")
+    patient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="calorie_records")
     date = models.DateField(auto_now_add=True)
     intake = models.PositiveIntegerField(help_text="Calories consumed")
     burnt = models.PositiveIntegerField(help_text="Calories burnt")
     
     def __str__(self):
-        return f"{self.patient.patient_info.name} - {self.date} | Intake: {self.intake} | Burnt: {self.burnt}"
+        return f"{self.date} | Intake: {self.intake} | Burnt: {self.burnt}"
 
 # Yoga & Breathing Exercises
 class SoulStretch(models.Model):
+    patient = models.ForeignKey(
+        Patient, 
+        on_delete=models.CASCADE, 
+        related_name="soulstrech"
+    )
     title = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to="yoga_images/", blank=True, null=True)
-    video = models.FileField(upload_to="yoga_videos/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="yoga_images/", 
+        blank=True, 
+        null=True
+    )
+    video = models.FileField(
+        upload_to="yoga_videos/", 
+        blank=True, 
+        null=True
+    )
     
     def __str__(self):
         return self.title
 
 # Workout Guidelines
 class SweatSpot(models.Model):
+    patient = models.ForeignKey(
+        Patient, 
+        on_delete=models.CASCADE, 
+        related_name="sweatspot"
+    )
     title = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to="workout_images/", blank=True, null=True)
-    video = models.FileField(upload_to="workout_videos/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="workout_images/", 
+        blank=True, 
+        null=True
+    )
+    video = models.FileField(
+        upload_to="workout_videos/", 
+        blank=True, 
+        null=True
+    )
     
     def __str__(self):
         return self.title

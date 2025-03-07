@@ -228,32 +228,6 @@ class AppointmentDeleteView(DeleteView):
 
 
 
-# Calorie Count - List View
-# Calorie List View (Filtered by Patient)
-class CalorieListView(ListView):
-    model = CalorieRecord
-    template_name = "calories/calorie_list.html"
-    context_object_name = "calories"
-
-    def get_queryset(self):
-        patient_id = self.kwargs.get("patient_id")
-        return CalorieRecord.objects.filter(patient_id=patient_id).order_by("-date")
-
-
-# Calorie Create View
-class CalorieCreateView(CreateView):
-    model = CalorieRecord
-    template_name = "calories/calorie_form.html"
-    fields = ["intake", "burnt"]
-    
-    def form_valid(self, form):
-        patient_id = self.kwargs.get("patient_id")
-        form.instance.patient = get_object_or_404(Patient, id=patient_id)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy("calorie_list", kwargs={"patient_id": self.object.patient.id})
-
 # Soul Stretch Views
 class SoulStretchListView(ListView):
     model = SoulStretch

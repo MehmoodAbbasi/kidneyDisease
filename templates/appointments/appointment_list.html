@@ -28,7 +28,7 @@
                 {% for appointment in appointments %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ appointment.patient.name }}</td>
+                    <td>{{ appointment.patient }}</td>
                     <td>{{ appointment.date }}</td>
                     <td>{{ appointment.time }}</td>
                     <td>{{ appointment.get_consultation_type_display }}</td>

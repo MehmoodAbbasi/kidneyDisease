@@ -142,7 +142,7 @@ class PatientDietRecommendationView(LoginRequiredMixin, ListView):
 
         # Ensure the logged-in user has a PatientInfo profile
         if not hasattr(user, "patient_info"):
-            return Patient.objects.none()  # No patient records if no profile exists
+            return Patient.objects.none()  
 
         return Patient.objects.filter(patient_info=user.patient_info).order_by('-created_at')
     
@@ -159,11 +159,14 @@ class DietRecommendationsView(DetailView):
 
     
 
-class AppointmentListView(ListView):
+class AppointmentListView(LoginRequiredMixin, ListView):
     model = Appointment
-    template_name = "patient/appointment_list.html"
+    template_name = "patient/appointments.html"
     context_object_name = "appointments"
 
+    def get_queryset(self):
+        """Retrieve only the appointments of the logged-in user."""
+        return Appointment.objects.filter(patient__patient_info__user=self.request.user).order_by('-date', '-time')
 
 
 
@@ -268,3 +271,20 @@ class CalorieListView(LoginRequiredMixin, ListView):
 
 
 
+class WorkoutListView(LoginRequiredMixin, ListView):
+    model = SweatSpot
+    template_name = "patient/workout_plans.html" 
+    context_object_name = "workouts"
+
+    def get_queryset(self):
+        """Retrieve only the workouts of the logged-in user."""
+        return SweatSpot.objects.filter(patient__patient_info__user=self.request.user).order_by('-id')
+    
+class YougaListView(LoginRequiredMixin, ListView):
+    model = SoulStretch
+    template_name = "patient/youga_breathings.html" 
+    context_object_name = "workouts"
+
+    def get_queryset(self):
+        """Retrieve only the workouts of the logged-in user."""
+        return SoulStretch.objects.filter(patient__patient_info__user=self.request.user).order_by('-id')

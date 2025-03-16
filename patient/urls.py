@@ -12,6 +12,9 @@ urlpatterns = [
     path('diet-recomends/<int:pk>/', DietRecommendationsView.as_view(), name='diet_recommendations'),
 
     path('appointments/', AppointmentListView.as_view(), name='appointment_list'),
+    path("workouts/", WorkoutListView.as_view(), name="patient_workouts"),
+    path("youga-breathing/", YougaListView.as_view(), name="patient_youga"),
+
 
 
     path('calories/', CalorieCreateView.as_view(), name='calorie_create'),
